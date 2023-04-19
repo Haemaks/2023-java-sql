@@ -12,8 +12,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("uname");
-        String password = request.getParameter("psw");
-        if (username.equals("Martin") && password.equals("1234")) response.getWriter().println("Successfully logged in!");
-        else response.getWriter().println("Unsuccessful attempt to login " + username + " " + password);
+        String user_password = request.getParameter("psw");
+        
     }
 }

@@ -18,20 +18,25 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
+        String username = request.getParameter("username");
         String password = request.getParameter("psw");
         
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mariadb//localhost/website_users");
+            Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost/website_users");
             Statement stmt  = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM website_users");
-            conn.close();
             
-            while(rs.next()) {
-                String username = rs.getString(1);
-                String user_password = rs.getString(2);
-                response.getWriter().println(username + " " + username_password);
+            //IF USER IS STILL NOT CREATED
+            if (stmt.executeQuery(String.format("SELECT id FROM users WHERE username=\"%s\"", username)).getString(1).equals("")) {
+                String q = String.format("INSERT INTO users (username, user_password) VALUES (\"%s\", \"%s\");",username, password);
+                ResultSet rs = stmt.executeQuery(q);
+                conn.close();
+                response.getWriter().println("Successfully registered.\nWelcome " + username + " to my website!");
+            }
+            
+            //ELSE
+            else {
+                response.getWriter().println("User already exists. Try logging.");
             }
             
         } catch (ClassNotFoundException ex) {
@@ -40,6 +45,5 @@ public class RegisterServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
     }
 }
