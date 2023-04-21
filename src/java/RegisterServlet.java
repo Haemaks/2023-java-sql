@@ -25,18 +25,18 @@ public class RegisterServlet extends HttpServlet {
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost/website_users");
             Statement stmt  = conn.createStatement();
-            
+            ResultSet rs = stmt.executeQuery(String.format("SELECT COUNT(*) FROM users WHERE username=\"%s\"", username));
+            rs.next();
             //IF USER IS STILL NOT CREATED
-            if (stmt.executeQuery(String.format("SELECT id FROM users WHERE username=\"%s\"", username)).getString(1).equals("")) {
-                String q = String.format("INSERT INTO users (username, user_password) VALUES (\"%s\", \"%s\");",username, password);
-                ResultSet rs = stmt.executeQuery(q);
+            if (rs.getString(1).equals("0")) {
+                ResultSet rs1 = stmt.executeQuery(String.format("INSERT INTO users (username, user_password) VALUES (\"%s\", \"%s\");",username, password));
                 conn.close();
                 response.getWriter().println("Successfully registered.\nWelcome " + username + " to my website!");
             }
             
             //ELSE
             else {
-                response.getWriter().println("User already exists. Try logging.");
+                response.getWriter().println("User already exists. Try logging instead.");
             }
             
         } catch (ClassNotFoundException ex) {
@@ -44,6 +44,8 @@ public class RegisterServlet extends HttpServlet {
             
         } catch (SQLException ex) {
             Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.getWriter().println("There\'s an error with the SQL statement");
+            
         }
     }
 }
