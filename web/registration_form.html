@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Register</title>
+        <title>Sign up</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="registration_form.css">
     </head>
     <body>
-         <form action="RegisterServlet">
-            <div class="container">
-            <h1>Register</h1>
-            <p>Please fill in this form to create an account.</p>
-            <hr>
+        <div class="registration_form_body">
+            <form action="RegisterServlet">
+                <h1>Sign up</h1>
+                <p>Please fill in this form to create an account.</p>
 
-            <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="username" id="username" required>
+                <label for="username"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-            <hr>
-
-            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-            <button type="submit">Register</button>
-            </div>
+                <button type="submit">Register</button>
              
-             <div class="container signin">
-            <p>Already have an account? <a href="/home">Sign in</a>.</p>
-               </div>
-        </form> 
+                <p>Already have an account? <a href="/2023-java-sql/login_form.html">Sign in</a>.</p>
+            </form>
+        </div>
     </body>
 </html>

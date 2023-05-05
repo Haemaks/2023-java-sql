@@ -1,6 +1,7 @@
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +37,16 @@ public class LoginServlet extends HttpServlet {
                 
                 //IF THE PASSWORD IS CORRECT
                 if (rs2.getString(1).equals(user_password)) {
-                    response.getWriter().println("You have logged successfully in. Welcome back :)");
+                    
+                    ResultSet rs3 = stmt.executeQuery(String.format("SELECT rang FROM users WHERE username=\"%s\"", username));
+                    rs3.next();
+                    String user_rang = rs3.getString(1);
+                    
+                    Cookie c1 = new Cookie("rang", user_rang);
+                    c1.setMaxAge(7200);
+                    response.addCookie(c1);
+                    
+                    response.sendRedirect("index.jsp");
                 }
                 
                 else {
